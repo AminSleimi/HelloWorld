@@ -209,6 +209,8 @@ public class MainActivity extends Activity {
 					
 					descriptionSiteIntent.putExtra("nomSite", site.getNomSite());
 					descriptionSiteIntent.putExtra("descSite", site.getDescriptionSite());
+					descriptionSiteIntent.putExtra("latSite", site.getLatitudeSite());
+					descriptionSiteIntent.putExtra("lonSite", site.getLongitudeSite());
 					startActivity(descriptionSiteIntent);
 					
 				}
