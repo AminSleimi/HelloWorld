@@ -29,20 +29,23 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class DescriptionSite extends FragmentActivity implements
-GooglePlayServicesClient.ConnectionCallbacks,
-GooglePlayServicesClient.OnConnectionFailedListener{
+public class DescriptionSite extends FragmentActivity {
 	
 	private Polyline newPolyline;
 	private GoogleMap map;
 	private SupportMapFragment fragment;
+	
+	
+	
 	private static LatLng UserLocation = new LatLng(36.802316,10.179781);
 	private static LatLng siteLocation = new LatLng(48.856132, 2.352448);
 	private LatLngBounds latlngBounds;
 	private int width, height;
 	
-	private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST=9000;
+	
 
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,35 +57,35 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		final Button directionButton = (Button) findViewById(R.id.directionButton);
 	    fragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
 		map = fragment.getMap();
-		/*
-		LocationClient mLocationClient = new LocationClient(this, this, this);
-		mLocationClient.connect();
-		Location mCurrentLocation;
-		try {
-			mCurrentLocation = mLocationClient.getLastLocation();
-			UserLocation = new LatLng(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
-		*/
+		
+		
+		
+		
+			
+		
+		
+		
 		Serializable extra = getIntent().getSerializableExtra("nomSite");
 		Serializable extraDesc = getIntent().getSerializableExtra("descSite");
 		Serializable extraLat = getIntent().getSerializableExtra("latSite");
 		Serializable extraLon = getIntent().getSerializableExtra("lonSite");
+		Serializable extraUserLat = getIntent().getSerializableExtra("latUser");
+		Serializable extraUserLon = getIntent().getSerializableExtra("lonUser");
 		
 		if(extra != null && extraDesc != null && extraLat != null && extraLon != null)
 		{
 			Double lat = (Double)extraLat;
 			Double lon = (Double)extraLon;
+			Double latUser = (Double)extraUserLat;
+			Double lonUser = (Double)extraUserLon;
 			nomSiteTextView.setText(extra.toString());
 			descriptionSiteTextView.setText(extraDesc.toString());
 			siteLocation = new LatLng(lat, lon);
+			UserLocation = new LatLng(latUser,lonUser);
 		}
 		
-		findDirections(UserLocation.latitude, UserLocation.longitude,siteLocation.latitude, siteLocation.longitude, GMapV2Direction.MODE_DRIVING);
+		
 		
 		directionButton.setOnClickListener(new OnClickListener() {
 			
@@ -158,43 +161,6 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	@Override
-	public void onConnected(Bundle arg0) {
-		
-		Toast.makeText(this,  "Connected",  Toast.LENGTH_SHORT).show();
-		
-	}
-
-	@Override
-	public void onDisconnected() {
-		Toast.makeText(this,  "Disconnected",  Toast.LENGTH_SHORT).show();
-		
-	}
-
-	@Override
-	public void onConnectionFailed(ConnectionResult connectionResult) {
-		if (connectionResult.hasResolution()) {
-            try {
-                // Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult(
-                        this,
-                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
-                /*
-                 * Thrown if Google Play services canceled the original
-                 * PendingIntent
-                 */
-            } catch (IntentSender.SendIntentException e) {
-                // Log the error
-                e.printStackTrace();
-            }
-        } else {
-            /*
-             * If no resolution is available, display a dialog to the
-             * user with the error.
-             */
-            showDialog(connectionResult.getErrorCode());
-        }
-		
-	}
+	
+	
 }
